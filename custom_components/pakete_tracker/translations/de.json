@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pakete Tracker einrichten",
+        "description": "Wähle die Paketdienstleister, die in der Übersicht angezeigt werden sollen. Die Anmeldung bei den Dienstleistern erfolgt danach über „Konfigurieren“.",
+        "data": { "carriers": "Sichtbare Paketdienstleister" }
+      }
+    },
+    "error": { "no_carriers": "Bitte mindestens einen Dienstleister auswählen." },
+    "abort": { "single_instance_allowed": "Pakete Tracker ist bereits eingerichtet." }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pakete Tracker",
+        "description": "E-Mail-Postfach: {email}\nDHL: {dhl}\nUPS: {ups}",
+        "menu_options": {
+          "settings": "Dienstleister & Aktualisierung",
+          "email": "E-Mail-Postfach verbinden (Amazon, DPD, GLS, Hermes …)",
+          "dhl": "Bei DHL anmelden",
+          "ups": "Bei UPS anmelden"
+        }
+      },
+      "settings": {
+        "title": "Dienstleister & Aktualisierung",
+        "data": {
+          "carriers": "Sichtbare Paketdienstleister",
+          "scan_interval": "Aktualisierungsintervall",
+          "keep_delivered_days": "Zugestellte Pakete anzeigen (Tage)"
+        },
+        "data_description": {
+          "keep_delivered_days": "0 = zugestellte Pakete sofort ausblenden"
+        }
+      },
+      "email": {
+        "title": "E-Mail-Postfach verbinden",
+        "description": "Versand- und Zustellbenachrichtigungen werden aus deinem Postfach gelesen (nur lesend, Mails werden nicht als gelesen markiert). So werden Amazon-Bestellungen und Sendungen von DPD, GLS, Hermes, DHL und UPS automatisch erkannt.\n\nweb.de / GMX: Unter Einstellungen → POP3/IMAP den IMAP-Zugriff aktivieren. Gmail: App-Passwort verwenden (imap.gmail.com).",
+        "data": {
+          "host": "IMAP-Server",
+          "port": "Port (SSL)",
+          "username": "Benutzername / E-Mail-Adresse",
+          "password": "Passwort",
+          "folder": "Ordner",
+          "days": "Mails der letzten … Tage durchsuchen",
+          "logout": "Verbindung trennen"
+        },
+        "data_description": {
+          "password": "Beim Bearbeiten leer lassen, um das bisherige Passwort zu behalten."
+        }
+      },
+      "dhl": {
+        "title": "Bei DHL anmelden",
+        "description": "DHL bietet eine offizielle Sendungsverfolgungs-API. Kostenlosen API-Key erstellen: developer.dhl.com → registrieren → „Create App“ → API „Shipment Tracking - Unified“ hinzufügen → API-Key kopieren (250 Abfragen pro Tag).",
+        "data": { "api_key": "API-Key", "logout": "Abmelden" }
+      },
+      "ups": {
+        "title": "Bei UPS anmelden",
+        "description": "UPS bietet eine offizielle Tracking-API. Zugangsdaten erstellen: developer.ups.com → anmelden → „Create Application“ → Produkt „Tracking“ → Client ID und Client Secret kopieren.",
+        "data": { "client_id": "Client ID", "client_secret": "Client Secret", "logout": "Abmelden" }
+      }
+    },
+    "error": {
+      "no_carriers": "Bitte mindestens einen Dienstleister auswählen.",
+      "invalid_auth": "Anmeldung fehlgeschlagen – Zugangsdaten prüfen.",
+      "cannot_connect": "Verbindung fehlgeschlagen."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "active": { "name": "Pakete unterwegs" },
+      "today": { "name": "Pakete heute" }
+    }
+  },
+  "selector": {
+    "carrier": {
+      "options": {
+        "dhl": "DHL",
+        "amazon": "Amazon",
+        "dpd": "DPD",
+        "hermes": "Hermes",
+        "gls": "GLS",
+        "ups": "UPS"
+      }
+    }
+  },
+  "services": {
+    "add_package": {
+      "name": "Paket hinzufügen",
+      "description": "Fügt eine Sendung per Sendungsnummer (bei Amazon: Bestellnummer) hinzu.",
+      "fields": {
+        "carrier": { "name": "Dienstleister", "description": "Paketdienstleister der Sendung." },
+        "tracking_number": { "name": "Sendungsnummer", "description": "Sendungs- bzw. Bestellnummer." },
+        "name": { "name": "Bezeichnung", "description": "Optionaler Name, z. B. was im Paket ist." }
+      }
+    },
+    "remove_package": {
+      "name": "Paket entfernen",
+      "description": "Entfernt eine Sendung aus der Übersicht.",
+      "fields": {
+        "carrier": { "name": "Dienstleister", "description": "Paketdienstleister der Sendung." },
+        "tracking_number": { "name": "Sendungsnummer", "description": "Sendungs- bzw. Bestellnummer." }
+      }
+    },
+    "refresh": {
+      "name": "Aktualisieren",
+      "description": "Fragt sofort alle Sendungen neu ab."
+    }
+  }
+}

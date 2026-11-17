@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Pakete Tracker",
+        "description": "Choose which parcel carriers are shown in the overview. Sign in to the carriers afterwards via \"Configure\".",
+        "data": { "carriers": "Visible carriers" }
+      }
+    },
+    "error": { "no_carriers": "Please select at least one carrier." },
+    "abort": { "single_instance_allowed": "Pakete Tracker is already configured." }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pakete Tracker",
+        "description": "Mailbox: {email}\nDHL: {dhl}\nUPS: {ups}",
+        "menu_options": {
+          "settings": "Carriers & update interval",
+          "email": "Connect mailbox (Amazon, DPD, GLS, Hermes …)",
+          "dhl": "Sign in to DHL",
+          "ups": "Sign in to UPS"
+        }
+      },
+      "settings": {
+        "title": "Carriers & update interval",
+        "data": {
+          "carriers": "Visible carriers",
+          "scan_interval": "Update interval",
+          "keep_delivered_days": "Show delivered parcels (days)"
+        },
+        "data_description": {
+          "keep_delivered_days": "0 = hide delivered parcels immediately"
+        }
+      },
+      "email": {
+        "title": "Connect mailbox",
+        "description": "Shipping and delivery notifications are read from your mailbox (read-only, mails are not marked as read). Amazon orders and parcels from DPD, GLS, Hermes, DHL and UPS are detected automatically.\n\nGmail: use an app password (imap.gmail.com).",
+        "data": {
+          "host": "IMAP server",
+          "port": "Port (SSL)",
+          "username": "Username / e-mail address",
+          "password": "Password",
+          "folder": "Folder",
+          "days": "Search mails of the last … days",
+          "logout": "Disconnect"
+        },
+        "data_description": {
+          "password": "Leave empty when editing to keep the current password."
+        }
+      },
+      "dhl": {
+        "title": "Sign in to DHL",
+        "description": "DHL offers an official tracking API. Create a free API key: developer.dhl.com → register → \"Create App\" → add API \"Shipment Tracking - Unified\" → copy the API key (250 requests per day).",
+        "data": { "api_key": "API key", "logout": "Sign out" }
+      },
+      "ups": {
+        "title": "Sign in to UPS",
+        "description": "UPS offers an official tracking API. Create credentials: developer.ups.com → \"Create Application\" → product \"Tracking\" → copy Client ID and Client Secret.",
+        "data": { "client_id": "Client ID", "client_secret": "Client Secret", "logout": "Sign out" }
+      }
+    },
+    "error": {
+      "no_carriers": "Please select at least one carrier.",
+      "invalid_auth": "Authentication failed – check your credentials.",
+      "cannot_connect": "Failed to connect."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "active": { "name": "Parcels in transit" },
+      "today": { "name": "Parcels today" }
+    }
+  },
+  "selector": {
+    "carrier": {
+      "options": {
+        "dhl": "DHL",
+        "amazon": "Amazon",
+        "dpd": "DPD",
+        "hermes": "Hermes",
+        "gls": "GLS",
+        "ups": "UPS"
+      }
+    }
+  },
+  "services": {
+    "add_package": {
+      "name": "Add parcel",
+      "description": "Adds a parcel by tracking number (Amazon: order number).",
+      "fields": {
+        "carrier": { "name": "Carrier", "description": "Carrier of the parcel." },
+        "tracking_number": { "name": "Tracking number", "description": "Tracking or order number." },
+        "name": { "name": "Label", "description": "Optional name, e.g. what's inside." }
+      }
+    },
+    "remove_package": {
+      "name": "Remove parcel",
+      "description": "Removes a parcel from the overview.",
+      "fields": {
+        "carrier": { "name": "Carrier", "description": "Carrier of the parcel." },
+        "tracking_number": { "name": "Tracking number", "description": "Tracking or order number." }
+      }
+    },
+    "refresh": {
+      "name": "Refresh",
+      "description": "Immediately refreshes all parcels."
+    }
+  }
+}
